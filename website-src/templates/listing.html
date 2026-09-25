@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% from "_macros.html" import service_card, industry_card, lead_form %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">{{ page.eyebrow }}</p><h1>{{ page.h1 }}</h1><p class="lead">{{ page.intro }}</p></div></section>
+<section class="section"><div class="wrap">
+  <div class="grid grid-3">
+    {% if page.kind == 'services' %}{% for s in services %}{{ service_card(rel, ic, s) }}{% endfor %}
+    {% else %}{% for i in industries %}{{ industry_card(rel, ic, i) }}{% endfor %}{% endif %}
+  </div>
+</div></section>
+<section class="section alt"><div class="wrap split">
+  <div class="prose">{% for para in page.body %}<p>{{ para }}</p>{% endfor %}</div>
+  {{ lead_form(rel, site, ic, id='listForm', compact=True, source=page.id) }}
+</div></section>
+{% endblock %}

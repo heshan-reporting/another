@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% from "_macros.html" import mockup, lead_form %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">Our work</p><h1>{{ page.h1 }}</h1><p class="lead">{{ page.intro }}</p></div></section>
+<section class="section"><div class="wrap">
+  <div class="filters" role="tablist" aria-label="Filter by industry">
+    <button class="pill active" data-f="all">All</button>
+    {% for i in industries %}<button class="pill" data-f="{{ i.slug }}">{{ i.name }}</button>{% endfor %}
+  </div>
+  <div class="grid grid-3 gallery">
+    {% for w in portfolio %}
+    <figure class="work" data-ind="{{ w.industry }}">
+      <div class="work-visual">{{ mockup(w.shape) }}</div>
+      <figcaption><span class="post-cat">{{ industry_by[w.industry].name }}</span><h3>{{ w.title }}</h3><p>{{ w.tag }}</p><a href="{{ rel }}industries/{{ w.industry }}/">See industry solutions {{ ic('arrow','ic sm') }}</a></figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+  <p class="note center">Photographs of client work are shared on request to protect customer confidentiality. Ask us for samples relevant to your product.</p>
+</div></section>
+<section class="section alt"><div class="wrap-narrow">{{ lead_form(rel, site, ic, id='workForm', title='Want samples like these for your product?', subtitle='Tell us about it and we will send relevant samples and pricing.', source='portfolio') }}</div></section>
+{% endblock %}

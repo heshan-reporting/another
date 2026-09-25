@@ -1,0 +1,57 @@
+"""Inline SVG icons (24x24, stroke based).  Keeps the site free of icon-font requests."""
+from markupsafe import Markup
+
+_P = {
+    "box": '<path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/><path d="M7.5 5.5l9 5"/>',
+    "shipping": '<rect x="1" y="7" width="15" height="11" rx="1"/><path d="M16 10h4l3 3v5h-7z"/><circle cx="6" cy="19" r="2"/><circle cx="19" cy="19" r="2"/>',
+    "label": '<path d="M20.6 13.4L13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    "gift": '<rect x="3" y="8" width="18" height="4"/><path d="M5 12v9h14v-9"/><path d="M12 8v13"/><path d="M12 8c-2-4-6-4-6-1s4 1 6 1zm0 0c2-4 6-4 6-1s-4 1-6 1z"/>',
+    "press": '<rect x="3" y="9" width="18" height="8" rx="1"/><path d="M6 9V4h12v5"/><path d="M6 17v3h12v-3"/><circle cx="17" cy="13" r="1"/>',
+    "digital": '<rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M6 12l3-3 3 3 4-4"/>',
+    "brochure": '<path d="M3 4h6l3 2h9v14H3z"/><path d="M9 4v16"/><path d="M15 6v14"/>',
+    "card": '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 10h6"/><path d="M6 14h4"/><circle cx="17" cy="12" r="2"/>',
+    "banner": '<path d="M4 3v18"/><path d="M4 4h14l-3 4 3 4H4"/>',
+    "bag": '<path d="M6 8h12l1 13H5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    "food": '<path d="M3 11h18l-2 9H5z"/><path d="M5 11c0-4 3-6 7-6s7 2 7 6"/><path d="M12 5V3"/>',
+    "book": '<path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8z"/>',
+    "design": '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.6 7.6"/><circle cx="11" cy="11" r="2"/>',
+    "tea": '<path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 9h2a2 2 0 0 1 0 4h-2"/><path d="M3 21h16"/><path d="M8 3c0 1.5 1 1.5 1 3M12 3c0 1.5 1 1.5 1 3"/>',
+    "apparel": '<path d="M8 3l4 2 4-2 5 4-3 3-2-1v12H8V9L6 10 3 7z"/>',
+    "pharma": '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>',
+    "cosmetics": '<path d="M9 2h6v5H9z"/><path d="M8 7h8v14H8z"/><path d="M8 12h8"/>',
+    "hotel": '<path d="M3 21V7l9-4 9 4v14"/><path d="M9 21v-5h6v5"/><path d="M8 10h2M14 10h2M8 14h2M14 14h2"/>',
+    "cart": '<circle cx="9" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M1 2h4l2.7 12.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>',
+    "bank": '<path d="M3 9l9-6 9 6"/><path d="M4 9v12h16V9"/><path d="M8 13v5M12 13v5M16 13v5"/><path d="M2 21h20"/>',
+    "education": '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V17c0 1.5 3 3 6 3s6-1.5 6-3v-5.5"/><path d="M22 9v6"/>',
+    "building": '<rect x="3" y="3" width="12" height="18"/><path d="M15 9h6v12h-6"/><path d="M7 7h2M7 11h2M7 15h2M11 7h2M11 11h2M11 15h2"/><path d="M18 13h1M18 17h1"/>',
+    "clock": '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    "shield": '<path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/>',
+    "layers": '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17.5l9 5 9-5"/>',
+    "sample": '<path d="M4 4h16v6H4z"/><path d="M6 10v10h12V10"/><path d="M10 14h4"/>',
+    "leaf": '<path d="M5 20c0-9 4-15 15-16-1 11-7 15-15 16z"/><path d="M5 20c3-5 7-8 11-10"/>',
+    "truck": '<rect x="1" y="6" width="14" height="10"/><path d="M15 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>',
+    "phone": '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.8.7a2 2 0 0 1 1.8 2z"/>',
+    "whatsapp": '<path d="M3 21l1.6-4.7A9 9 0 1 1 8 19.6z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1a4 4 0 0 1-2-2l1-1-1-2z"/>',
+    "mail": '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/>',
+    "map": '<path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>',
+    "check": '<path d="M20 6L9 17l-5-5"/>',
+    "arrow": '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>',
+    "menu": '<path d="M3 6h18M3 12h18M3 18h18"/>',
+    "close": '<path d="M6 6l12 12M18 6L6 18"/>',
+    "star": '<path d="M12 2l3 6.5 7 .9-5 4.9 1.3 7L12 18l-6.3 3.3 1.3-7-5-4.9 7-.9z"/>',
+    "download": '<path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/>',
+    "calculator": '<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M16 15v4M8 19h6"/>',
+    "quote": '<path d="M10 11H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v7c0 2-1 3.5-3 4.5"/><path d="M20 11h-4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v7c0 2-1 3.5-3 4.5"/>',
+    "facebook": '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+    "instagram": '<rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>',
+    "linkedin": '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+    "youtube": '<path d="M22.5 7.2a3 3 0 0 0-2.1-2.1C18.5 4.6 12 4.6 12 4.6s-6.5 0-8.4.5A3 3 0 0 0 1.5 7.2 31 31 0 0 0 1 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23 12a31 31 0 0 0-.5-4.8z"/><path d="M10 15l5-3-5-3z"/>',
+    "tag": '<path d="M20.6 13.4L13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    "upload": '<path d="M12 21V9"/><path d="M7 14l5-5 5 5"/><path d="M4 3h16"/>',
+    "chat": '<path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/>',
+}
+
+def icon(name, cls="ic", size=24):
+    path = _P.get(name) or _P["box"]
+    return Markup(f'<svg class="{cls}" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" '
+            f'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{path}</svg>')

@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">Contact</p><h1>{{ page.h1 }}</h1><p class="lead">{{ page.intro }}</p></div></section>
+<section class="section"><div class="wrap split-content">
+  <div class="prose">
+    <div class="contact-grid">
+      <div class="side-box"><span class="card-ic">{{ ic('phone') }}</span><h3>Call us</h3><p><a href="tel:{{ site.phone_tel }}">{{ site.phone_display }}</a></p><p class="note">{{ site.opening_hours_text }}</p></div>
+      <div class="side-box"><span class="card-ic">{{ ic('whatsapp') }}</span><h3>WhatsApp</h3><p><a href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">+{{ site.whatsapp_number }}</a></p><p class="note">Send photos, files and sizes. Fastest for quick questions.</p></div>
+      <div class="side-box"><span class="card-ic">{{ ic('mail') }}</span><h3>Email</h3><p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p><p class="note">Attach artwork or tech packs up to 25 MB.</p></div>
+      <div class="side-box"><span class="card-ic">{{ ic('map') }}</span><h3>Visit the plant</h3><p>{{ site.street }}, {{ site.city }} {{ site.postal }}, {{ site.country }}</p><p class="note"><a href="{{ site.map_url }}" target="_blank" rel="noopener">Get directions</a> · Visitors welcome by appointment</p></div>
+    </div>
+    <h2>Areas we serve</h2>
+    <p>Daily deliveries across {{ site.areas_served[:6] | join(', ') }} and scheduled routes to {{ site.areas_served[6:] | join(', ') }}. Export orders are packed for your freight forwarder at the Port of Colombo or Bandaranaike International Airport.</p>
+    <div class="map-embed"><iframe title="Map to {{ site.brand }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={{ site.geo_lat }},{{ site.geo_lng }}&z=14&output=embed"></iframe></div>
+  </div>
+  <aside class="side">{{ lead_form(rel, site, ic, id='contactForm', title='Send us a message', subtitle='We reply within one working day.', source='contact') }}</aside>
+</div></section>
+{% endblock %}

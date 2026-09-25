@@ -1,0 +1,44 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form, service_card, industry_card, faq_list, mockup %}
+{% block content %}
+<section class="page-hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ ic(s.icon,'ic sm') }} Service</p>
+      <h1>{{ s.h1 }}</h1>
+      <p class="lead">{{ s.intro }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="{{ rel }}quote/?service={{ s.slug }}">{{ ic('quote','ic sm') }} Get a quote</a>
+        <a class="btn btn-wa btn-lg" href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp</a>
+      </div>
+      <ul class="pill-list"><li>Ideal for:</li>{% for x in s.ideal_for %}<li class="pill">{{ x }}</li>{% endfor %}</ul>
+    </div>
+    <aside class="spec-card">
+      <h2>At a glance</h2>
+      <dl>{% for k, v in s.specs %}<div><dt>{{ k }}</dt><dd>{{ v }}</dd></div>{% endfor %}</dl>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split-content">
+    <article class="prose">
+      {% for sec in s.sections %}
+      <h2>{{ sec.h2 }}</h2>
+      {% if sec.p %}<p>{{ sec.p }}</p>{% endif %}
+      {% if sec.bullets %}<ul class="ticks">{% for b in sec.bullets %}<li>{{ ic('check','ic sm') }} {{ b }}</li>{% endfor %}</ul>{% endif %}
+      {% endfor %}
+      <h2>Industries that rely on this service</h2>
+      <div class="grid grid-2">{% for slug in s.related_industries %}{{ industry_card(rel, ic, industry_by[slug]) }}{% endfor %}</div>
+    </article>
+    <aside class="side">
+      {{ lead_form(rel, site, ic, id='sideForm', compact=True, title='Quote this service', subtitle='Costed proposal within one working day.', source='service-' ~ s.slug) }}
+      <div class="side-box">
+        <h3>Related services</h3>
+        <ul class="links">{% for slug in s.related_services %}<li><a href="{{ rel }}services/{{ slug }}/">{{ ic('arrow','ic sm') }} {{ service_by[slug].name }}</a></li>{% endfor %}</ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+{{ faq_list(s.faqs, h2='Questions about ' ~ s.name.lower()) }}
+{% endblock %}

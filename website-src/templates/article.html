@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form %}
+{% block content %}
+<article class="article">
+  <header class="page-hero slim"><div class="wrap-narrow"><p class="eyebrow">{{ p.category }} · {{ p.read }} · <time datetime="{{ p.date }}">{{ p.date_h }}</time></p><h1>{{ p.title }}</h1><p class="lead">{{ p.summary }}</p><p class="byline">By the {{ site.brand }} packaging team</p></div></header>
+  <div class="wrap split-content">
+    <div class="prose">
+      {% for sec in p.body %}
+      <h2>{{ sec.h2 }}</h2>
+      {% if sec.p %}<p>{{ sec.p }}</p>{% endif %}
+      {% if sec.bullets %}<ul>{% for b in sec.bullets %}<li>{{ b }}</li>{% endfor %}</ul>{% endif %}
+      {% if sec.table %}<div class="table-wrap"><table><thead><tr>{% for h in sec.table.head %}<th>{{ h }}</th>{% endfor %}</tr></thead><tbody>{% for row in sec.table.rows %}<tr>{% for c in row %}<td>{{ c }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endif %}
+      {% endfor %}
+      <div class="inline-cta">
+        {% if p.cta == 'resources' %}<h3>Download the free checklist</h3><p>One page, printable, used on every job in our plant.</p><a class="btn btn-primary" href="{{ rel }}resources/">{{ ic('download','ic sm') }} Go to downloads</a>
+        {% elif p.cta.startswith('industry:') %}{% set ind = industry_by[p.cta.split(':')[1]] %}<h3>Packaging for {{ ind.name.lower() }}</h3><p>{{ ind.short }}</p><a class="btn btn-primary" href="{{ rel }}industries/{{ ind.slug }}/">See solutions {{ ic('arrow','ic sm') }}</a>
+        {% else %}<h3>Get an exact price for your job</h3><p>Costed proposal at three quantities within one working day.</p><a class="btn btn-primary" href="{{ rel }}quote/">{{ ic('quote','ic sm') }} Request a quote</a>{% endif %}
+      </div>
+      <h2>More guides</h2>
+      <ul class="links">{% for o in posts if o.slug != p.slug %}<li><a href="{{ rel }}blog/{{ o.slug }}/">{{ ic('arrow','ic sm') }} {{ o.title }}</a></li>{% endfor %}</ul>
+    </div>
+    <aside class="side">{{ lead_form(rel, site, ic, id='sideForm', compact=True, source='blog-' ~ p.slug) }}</aside>
+  </div>
+</article>
+{% endblock %}

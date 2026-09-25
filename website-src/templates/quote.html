@@ -1,0 +1,48 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">Request a quote</p><h1>{{ page.h1 }}</h1><p class="lead">{{ page.intro }}</p></div></section>
+<section class="section"><div class="wrap split-content">
+  <div>
+    {{ lead_form(rel, site, ic, id='quoteForm', title='Tell us about your job', subtitle='Every field helps us quote faster, but name, phone, email and product are enough to start.', source='quote-page') }}
+  </div>
+  <aside class="side">
+    <div class="side-box">
+      <h3>What happens next</h3>
+      <ol class="mini-steps">
+        <li>A packaging or print specialist reviews your request</li>
+        <li>You receive a costed proposal within one working day</li>
+        <li>For packaging we send a free dieline and white sample</li>
+        <li>Approve the proof and we go to press</li>
+      </ol>
+    </div>
+    <div class="side-box">
+      <h3>Prefer to talk?</h3>
+      <p><a href="tel:{{ site.phone_tel }}">{{ ic('phone','ic sm') }} {{ site.phone_display }}</a><br><a href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp us</a><br><a href="mailto:{{ site.email }}">{{ ic('mail','ic sm') }} {{ site.email }}</a></p>
+      <p class="note">{{ site.opening_hours_text }}</p>
+    </div>
+  </aside>
+</div></section>
+
+<section class="section alt" id="estimate"><div class="wrap split">
+  <div class="prose">
+    <p class="eyebrow">Instant estimate</p>
+    <h2>Printed box price estimator</h2>
+    <p>Indicative pricing for folding cartons and mailer boxes made in Sri Lanka. Real quotes depend on exact size, board, artwork and finishing, and are often lower at volume. Use it to plan, then send it to us for an exact number.</p>
+    <ul class="ticks"><li>{{ ic('check','ic sm') }} Based on typical 2026 Sri Lankan production costs</li><li>{{ ic('check','ic sm') }} Covers 4-colour print on food-safe board</li><li>{{ ic('check','ic sm') }} Excludes VAT and delivery</li></ul>
+  </div>
+  <div class="calc card" id="calc">
+    <h3>Configure your box</h3>
+    <label>Box type<select id="cType"><option value="tuck">Tuck-end folding carton</option><option value="crash">Crash-lock folding carton</option><option value="mailer">Corrugated mailer box</option><option value="rigid">Rigid magnetic gift box</option></select></label>
+    <label>Size band<select id="cSize"><option value="s">Small (up to 10 × 7 × 4 cm)</option><option value="m" selected>Medium (up to 20 × 15 × 8 cm)</option><option value="l">Large (up to 35 × 25 × 12 cm)</option></select></label>
+    <label>Quantity<select id="cQty"><option value="100">100</option><option value="250">250</option><option value="500">500</option><option value="1000" selected>1,000</option><option value="2500">2,500</option><option value="5000">5,000</option><option value="10000">10,000</option></select></label>
+    <label>Finish<select id="cFinish"><option value="none">Matt/gloss varnish</option><option value="lam">Lamination</option><option value="premium">Lamination + spot UV / foil</option></select></label>
+    <div class="calc-out">
+      <span>Estimated range per box</span>
+      <strong id="cUnit">LKR —</strong>
+      <span id="cTotal">Total: —</span>
+    </div>
+    <a class="btn btn-primary btn-block" id="cSend" href="#quoteForm">{{ ic('arrow','ic sm') }} Get an exact quote for this box</a>
+    <p class="note">Indicative only. Minimum order for rigid boxes is 100; for offset-printed cartons 500 (digital from 50).</p>
+  </div>
+</div></section>
+{% endblock %}

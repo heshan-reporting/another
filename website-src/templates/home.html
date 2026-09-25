@@ -1,0 +1,153 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form, service_card, industry_card, faq_list, mockup %}
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ ic('map','ic sm') }} Printing &amp; packaging company · Colombo, Sri Lanka</p>
+      <h1>Printing &amp; packaging that sells your product and ships on time</h1>
+      <p class="lead">Custom printed boxes, corrugated cartons, labels, brochures and signage for Sri Lankan brands and exporters. Quotes in 24 hours, free dielines and samples, island-wide delivery.</p>
+      <ul class="hero-points">
+        <li>{{ ic('check','ic sm') }} Offset &amp; digital under one roof</li>
+        <li>{{ ic('check','ic sm') }} Export-grade, food-safe materials</li>
+        <li>{{ ic('check','ic sm') }} From 50 pieces to 500,000</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="{{ rel }}quote/">{{ ic('quote','ic sm') }} Get a quote</a>
+        <a class="btn btn-ghost btn-lg" href="{{ rel }}services/">Explore services {{ ic('arrow','ic sm') }}</a>
+      </div>
+      <div class="hero-stats">
+        {% for st in site.stats %}<div><strong>{{ st.value }}</strong><span>{{ st.label }}</span></div>{% endfor %}
+      </div>
+    </div>
+    <div class="hero-form">
+      {{ lead_form(rel, site, ic, id='heroForm', compact=True, title='Get your quote in 24 hours', subtitle='Tell us what you need. No obligation.', source='home-hero') }}
+    </div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="wrap trust-in">
+    <span>Trusted by brands in</span>
+    <ul>
+      <li>Tea export</li><li>Apparel</li><li>FMCG</li><li>Pharma</li><li>Banking</li><li>Hospitality</li><li>Education</li><li>E-commerce</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">What we print</p>
+      <h2 id="svc-h">Printing and packaging services in Sri Lanka</h2>
+      <p>Everything from a business card to an export carton programme, produced in our own Colombo plant.</p>
+    </div>
+    <div class="grid grid-3">
+      {% for s in services[:9] %}{{ service_card(rel, ic, s) }}{% endfor %}
+    </div>
+    <p class="center"><a class="btn btn-ghost" href="{{ rel }}services/">All 13 services {{ ic('arrow','ic sm') }}</a></p>
+  </div>
+</section>
+
+<section class="section alt" aria-labelledby="usp-h">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Why brands choose us</p>
+      <h2 id="usp-h">Six reasons procurement teams and founders keep coming back</h2>
+    </div>
+    <div class="grid grid-3 usps">
+      {% for u in usps %}
+      <div class="usp"><span class="card-ic">{{ ic(u.icon) }}</span><h3>{{ u.title }}</h3><p>{{ u.text }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="ind-h">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Who we work with</p>
+      <h2 id="ind-h">Packaging and print solutions by industry</h2>
+      <p>We speak your sector's language, from buyer tech packs to AGM deadlines.</p>
+    </div>
+    <div class="grid grid-5">
+      {% for i in industries %}{{ industry_card(rel, ic, i) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section dark" aria-labelledby="cap-h">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Capabilities</p>
+      <h2 id="cap-h">A complete print and packaging plant in Colombo</h2>
+      <p>Structural design, CTP prepress, 4 and 5 colour offset up to B1, production digital, a digital label press, flexo for corrugated, large-format up to 3.2 m, plus lamination, foil, embossing, die-cutting, folder-gluing and binding, all in-house.</p>
+      <ul class="ticks">
+        <li>{{ ic('check','ic sm') }} Pantone-matched, colour-managed printing</li>
+        <li>{{ ic('check','ic sm') }} Food-grade and FSC-certified materials</li>
+        <li>{{ ic('check','ic sm') }} ECT/BCT tested corrugated for export</li>
+        <li>{{ ic('check','ic sm') }} Own delivery fleet and export packing</li>
+      </ul>
+      <a class="btn btn-primary" href="{{ rel }}capabilities/">See full capabilities {{ ic('arrow','ic sm') }}</a>
+    </div>
+    <div class="mock-stage">{{ mockup('box') }}{{ mockup('carton') }}{{ mockup('book') }}</div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="proc-h">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="proc-h">From brief to delivery in six clear steps</h2>
+    </div>
+    <ol class="steps">
+      {% for p in process %}<li><span class="step-n">{{ p.step }}</span><h3>{{ p.title }}</h3><p>{{ p.text }}</p></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="section alt" aria-labelledby="calc-h">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Instant estimate</p>
+      <h2 id="calc-h">Get a ballpark price for printed boxes in 30 seconds</h2>
+      <p>Choose a box type, size band, quantity and finish to see an indicative price range. Then send it to us for an exact quote and a free sample.</p>
+      <a class="btn btn-primary" href="{{ rel }}quote/#estimate">{{ ic('calculator','ic sm') }} Try the estimator</a>
+    </div>
+    <div class="testi-wrap">
+      {% for t in testimonials %}
+      <blockquote class="testi"><p>“{{ t.quote }}”</p><footer>{{ t.name }}, <span>{{ t.org }}</span></footer></blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="res-h">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Free resources</p>
+      <h2 id="res-h">Guides that make your next print job easier</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for r in resources %}
+      <a class="card res" href="{{ rel }}resources/#{{ r.slug }}"><span class="card-ic">{{ ic('download') }}</span><h3>{{ r.title }}</h3><p>{{ r.text }}</p><span class="card-more">{{ r.type }} · Download free {{ ic('arrow','ic sm') }}</span></a>
+      {% endfor %}
+    </div>
+    <div class="grid grid-2 posts-mini">
+      {% for p in posts[:2] %}
+      <a class="card post" href="{{ rel }}blog/{{ p.slug }}/"><span class="post-cat">{{ p.category }} · {{ p.read }}</span><h3>{{ p.title }}</h3><p>{{ p.summary }}</p></a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{{ faq_list(faqs[:6]) }}
+
+<section class="section seo-block" aria-labelledby="seo-h">
+  <div class="wrap-narrow">
+    <h2 id="seo-h">A printing company in Sri Lanka built for brands that export, retail and grow</h2>
+    <p>{{ site.brand }} is a printing and packaging company in Colombo serving customers across Sri Lanka, including Gampaha, Kalutara, Kandy, Galle, Negombo and the Katunayake and Biyagama export processing zones. We manufacture custom printed boxes, folding cartons, corrugated shipping cartons, mailer boxes, self-adhesive labels, shrink sleeves, rigid gift boxes, paper bags and food packaging, and we print brochures, catalogues, annual reports, books, business cards, stationery, banners, hoardings and signage.</p>
+    <p>Our customers include Ceylon tea exporters, apparel manufacturers, food and FMCG brands, pharmaceutical companies, ayurvedic and cosmetics brands, hotels and restaurants, banks and insurers, schools and universities, property developers and e-commerce sellers. Whether you need 50 boxes for a launch or a monthly carton programme, we offer the same colour-managed quality, free structural design and dependable delivery.</p>
+    <p>Looking for a packaging manufacturer or commercial printer near you? <a href="{{ rel }}quote/">Request a quote</a>, <a href="https://wa.me/{{ site.whatsapp_number }}" rel="noopener" target="_blank">WhatsApp our team</a> or <a href="{{ rel }}contact/">visit our plant</a> in Colombo.</p>
+  </div>
+</section>
+{% endblock %}

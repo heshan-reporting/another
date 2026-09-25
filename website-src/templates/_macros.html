@@ -1,0 +1,79 @@
+{% macro lead_form(rel, site, ic, id='leadForm', compact=False, title='Get your quote in 24 hours', subtitle='Tell us what you need. No obligation.', source='') %}
+<form class="lead-form{% if compact %} compact{% endif %}" id="{{ id }}" method="POST" action="{{ site.form_endpoint }}" novalidate data-source="{{ source }}">
+  {% if title %}<h3>{{ title }}</h3>{% endif %}
+  {% if subtitle %}<p class="form-sub">{{ subtitle }}</p>{% endif %}
+  <div class="f-row">
+    <label>Name<input type="text" name="name" required autocomplete="name" placeholder="Your name"></label>
+    <label>Company<input type="text" name="company" autocomplete="organization" placeholder="Company / brand"></label>
+  </div>
+  <div class="f-row">
+    <label>Phone / WhatsApp<input type="tel" name="phone" required autocomplete="tel" placeholder="+94 7X XXX XXXX"></label>
+    <label>Email<input type="email" name="email" required autocomplete="email" placeholder="you@company.lk"></label>
+  </div>
+  <label>What do you need?
+    <select name="service" required>
+      <option value="">Select a product</option>
+      <option>Custom printed boxes / folding cartons</option>
+      <option>Corrugated boxes / mailer boxes</option>
+      <option>Labels &amp; stickers</option>
+      <option>Rigid / gift boxes</option>
+      <option>Brochures, flyers, catalogues</option>
+      <option>Business cards &amp; stationery</option>
+      <option>Banners, hoardings, signage</option>
+      <option>Paper bags</option>
+      <option>Food packaging</option>
+      <option>Annual report / books</option>
+      <option>Design &amp; prepress</option>
+      <option>Something else</option>
+    </select>
+  </label>
+  {% if not compact %}
+  <div class="f-row">
+    <label>Quantity<input type="text" name="quantity" placeholder="e.g. 1,000"></label>
+    <label>Needed by<input type="date" name="deadline"></label>
+  </div>
+  <label>Details<textarea name="details" rows="3" placeholder="Size, material, finishes, or a link to a reference"></textarea></label>
+  {% endif %}
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+  <input type="hidden" name="_subject" value="New quote request from {{ site.brand }} website">
+  <input type="hidden" name="source_page" value="">
+  <input type="hidden" name="utm" value="">
+  <button type="submit" class="btn btn-primary btn-lg btn-block">{{ ic('arrow','ic sm') }} Send my request</button>
+  <p class="form-note">We reply within one working day. Prefer chat? <a href="https://wa.me/{{ site.whatsapp_number }}" target="_blank" rel="noopener">WhatsApp us</a>.</p>
+  <p class="form-status" role="status" aria-live="polite"></p>
+</form>
+{% endmacro %}
+
+{% macro service_card(rel, ic, s) %}
+<a class="card svc" href="{{ rel }}services/{{ s.slug }}/">
+  <span class="card-ic">{{ ic(s.icon) }}</span>
+  <h3>{{ s.name }}</h3>
+  <p>{{ s.short }}</p>
+  <span class="card-more">Learn more {{ ic('arrow','ic sm') }}</span>
+</a>
+{% endmacro %}
+
+{% macro industry_card(rel, ic, i) %}
+<a class="card ind" href="{{ rel }}industries/{{ i.slug }}/">
+  <span class="card-ic">{{ ic(i.icon) }}</span>
+  <h3>{{ i.name }}</h3>
+  <p>{{ i.short }}</p>
+  <span class="card-more">See solutions {{ ic('arrow','ic sm') }}</span>
+</a>
+{% endmacro %}
+
+{% macro faq_list(faqs, h2='Frequently asked questions') %}
+<section class="faq wrap-narrow" aria-labelledby="faq-h">
+  <h2 id="faq-h">{{ h2 }}</h2>
+  {% for q, a in faqs %}
+  <details class="faq-item"{% if loop.first %} open{% endif %}>
+    <summary><h3>{{ q }}</h3></summary>
+    <p>{{ a }}</p>
+  </details>
+  {% endfor %}
+</section>
+{% endmacro %}
+
+{% macro mockup(shape) %}
+<div class="mock mock-{{ shape }}" aria-hidden="true"><span></span><span></span><span></span></div>
+{% endmacro %}

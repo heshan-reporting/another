@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">Guides &amp; articles</p><h1>{{ page.h1 }}</h1><p class="lead">{{ page.intro }}</p></div></section>
+<section class="section"><div class="wrap">
+  <div class="grid grid-2">
+    {% for p in posts %}
+    <a class="card post" href="{{ rel }}blog/{{ p.slug }}/"><span class="post-cat">{{ p.category }} · {{ p.read }} · <time datetime="{{ p.date }}">{{ p.date_h }}</time></span><h2 class="h3">{{ p.title }}</h2><p>{{ p.summary }}</p><span class="card-more">Read the guide {{ ic('arrow','ic sm') }}</span></a>
+    {% endfor %}
+  </div>
+</div></section>
+<section class="section alt"><div class="wrap-narrow">{{ lead_form(rel, site, ic, id='blogForm', title='Have a project in mind?', subtitle='Get a costed proposal within one working day.', source='blog-index') }}</div></section>
+{% endblock %}

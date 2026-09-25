@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% set full_title = page.title if (page.no_brand_suffix or (page.title|length + site.brand|length + 3) > 65) else page.title ~ ' | ' ~ site.brand %}
+<title>{{ full_title }}</title>
+<meta name="description" content="{{ page.meta }}">
+{% if page.keywords %}<meta name="keywords" content="{{ page.keywords | join(', ') }}">{% endif %}
+<link rel="canonical" href="{{ canonical }}">
+<meta name="robots" content="{{ page.robots or 'index, follow, max-image-preview:large, max-snippet:-1' }}">
+<meta name="author" content="{{ site.brand }}">
+<meta name="geo.region" content="LK">
+<meta name="geo.placename" content="{{ site.city }}">
+<meta name="geo.position" content="{{ site.geo_lat }};{{ site.geo_lng }}">
+<meta name="ICBM" content="{{ site.geo_lat }}, {{ site.geo_lng }}">
+<meta name="theme-color" content="#0f1b2d">
+{% if site.google_site_verification %}<meta name="google-site-verification" content="{{ site.google_site_verification }}">{% endif %}
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="{{ page.og_type or 'website' }}">
+<meta property="og:site_name" content="{{ site.brand }}">
+<meta property="og:locale" content="en_LK">
+<meta property="og:title" content="{{ full_title }}">
+<meta property="og:description" content="{{ page.meta }}">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:image" content="{{ abs('static/img/og-image.png') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ site.brand }} – {{ site.tagline }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ full_title }}">
+<meta name="twitter:description" content="{{ page.meta }}">
+<meta name="twitter:image" content="{{ abs('static/img/og-image.png') }}">
+<!-- Icons -->
+<link rel="icon" href="{{ rel }}static/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{{ rel }}static/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="{{ rel }}static/img/apple-touch-icon.png">
+<link rel="manifest" href="{{ rel }}site.webmanifest">
+<!-- Performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"></noscript>
+<link rel="stylesheet" href="{{ rel }}static/css/style.css?v={{ build_id }}">
+<!-- Structured data -->
+<script type="application/ld+json">{{ org_schema | tojson }}</script>
+{% if page.schema %}<script type="application/ld+json">{{ page.schema | tojson }}</script>{% endif %}
+{% if breadcrumbs %}<script type="application/ld+json">{{ breadcrumb_schema | tojson }}</script>{% endif %}
+{% if site.ga4_id %}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.ga4_id }}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ site.ga4_id }}');</script>
+{% endif %}
+{% if site.meta_pixel_id %}
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','{{ site.meta_pixel_id }}');fbq('track','PageView');</script>
+{% endif %}
+</head>
+<body data-page="{{ page.id }}" data-form-endpoint="{{ site.form_endpoint }}" data-wa="{{ site.whatsapp_number }}" data-thanks="{{ rel }}{{ site.thank_you_path }}">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="topbar">
+    <div class="wrap topbar-in">
+      <span>{{ ic('map', 'ic sm') }} {{ site.city }}, {{ site.country }} · Island-wide delivery</span>
+      <span class="topbar-links">
+        <a href="tel:{{ site.phone_tel }}">{{ ic('phone', 'ic sm') }} {{ site.phone_display }}</a>
+        <a href="mailto:{{ site.email }}">{{ ic('mail', 'ic sm') }} {{ site.email }}</a>
+      </span>
+    </div>
+  </div>
+  <div class="wrap nav-in">
+    <a class="logo" href="{{ rel }}" aria-label="{{ site.brand }} home">
+      <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 40 40" width="40" height="40"><rect x="4" y="10" width="24" height="24" rx="3" fill="#f26b1d"/><rect x="12" y="4" width="24" height="24" rx="3" fill="#0f1b2d" opacity=".92"/><path d="M18 16h12M18 21h12M18 26h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+      <span class="logo-text"><strong>{{ site.brand }}</strong><small>Printing &amp; Packaging</small></span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <ul>
+        <li class="has-sub"><a href="{{ rel }}services/">Services</a>
+          <div class="sub"><div class="sub-grid">
+            {% for s in services %}<a href="{{ rel }}services/{{ s.slug }}/">{{ ic(s.icon, 'ic sm') }}<span><strong>{{ s.name }}</strong><small>{{ s.short }}</small></span></a>{% endfor %}
+          </div></div>
+        </li>
+        <li class="has-sub"><a href="{{ rel }}industries/">Industries</a>
+          <div class="sub"><div class="sub-grid two">
+            {% for i in industries %}<a href="{{ rel }}industries/{{ i.slug }}/">{{ ic(i.icon, 'ic sm') }}<span><strong>{{ i.name }}</strong><small>{{ i.short }}</small></span></a>{% endfor %}
+          </div></div>
+        </li>
+        <li><a href="{{ rel }}capabilities/">Capabilities</a></li>
+        <li><a href="{{ rel }}portfolio/">Work</a></li>
+        <li><a href="{{ rel }}resources/">Resources</a></li>
+        <li><a href="{{ rel }}blog/">Guides</a></li>
+        <li><a href="{{ rel }}about/">About</a></li>
+        <li><a href="{{ rel }}contact/">Contact</a></li>
+      </ul>
+      <div class="nav-cta-mobile">
+        <a class="btn btn-primary" href="{{ rel }}quote/">Get a quote</a>
+        <a class="btn btn-wa" href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp us</a>
+      </div>
+    </nav>
+    <div class="nav-actions">
+      <a class="phone-link" href="tel:{{ site.phone_tel }}">{{ ic('phone','ic sm') }}<span>{{ site.phone_display }}</span></a>
+      <a class="btn btn-primary" href="{{ rel }}quote/">Get a quote</a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="nav" aria-label="Open menu">{{ ic('menu') }}{{ ic('close') }}</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+{% if breadcrumbs %}
+<nav class="crumbs wrap" aria-label="Breadcrumb"><ol>
+  {% for c in breadcrumbs %}<li>{% if not loop.last %}<a href="{{ c.href }}">{{ c.name }}</a>{% else %}<span aria-current="page">{{ c.name }}</span>{% endif %}</li>{% endfor %}
+</ol></nav>
+{% endif %}
+{% block content %}{% endblock %}
+</main>
+
+<section class="cta-band" aria-labelledby="cta-band-h">
+  <div class="wrap cta-band-in">
+    <div>
+      <h2 id="cta-band-h">Tell us what you need to print. We'll quote it within one working day.</h2>
+      <p>Free dielines and samples for packaging. Trade pricing for agencies. Island-wide delivery.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a class="btn btn-primary btn-lg" href="{{ rel }}quote/">{{ ic('quote','ic sm') }} Request a quote</a>
+      <a class="btn btn-wa btn-lg" href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a class="logo" href="{{ rel }}"><span class="logo-text"><strong>{{ site.brand }}</strong><small>Printing &amp; Packaging, Sri Lanka</small></span></a>
+      <p>{{ site.description }}</p>
+      <address class="nap" itemscope itemtype="https://schema.org/LocalBusiness">
+        <meta itemprop="name" content="{{ site.brand }}">
+        <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">{{ ic('map','ic sm') }} <span itemprop="streetAddress">{{ site.street }}</span>, <span itemprop="addressLocality">{{ site.city }}</span> <span itemprop="postalCode">{{ site.postal }}</span>, <span itemprop="addressCountry">{{ site.country }}</span></span><br>
+        {{ ic('phone','ic sm') }} <a itemprop="telephone" href="tel:{{ site.phone_tel }}">{{ site.phone_display }}</a><br>
+        {{ ic('mail','ic sm') }} <a itemprop="email" href="mailto:{{ site.email }}">{{ site.email }}</a><br>
+        {{ ic('clock','ic sm') }} {{ site.opening_hours_text }}
+      </address>
+      <div class="social">
+        {% if site.social.facebook %}<a href="{{ site.social.facebook }}" aria-label="Facebook" rel="noopener" target="_blank">{{ ic('facebook','ic') }}</a>{% endif %}
+        {% if site.social.instagram %}<a href="{{ site.social.instagram }}" aria-label="Instagram" rel="noopener" target="_blank">{{ ic('instagram','ic') }}</a>{% endif %}
+        {% if site.social.linkedin %}<a href="{{ site.social.linkedin }}" aria-label="LinkedIn" rel="noopener" target="_blank">{{ ic('linkedin','ic') }}</a>{% endif %}
+        {% if site.social.youtube %}<a href="{{ site.social.youtube }}" aria-label="YouTube" rel="noopener" target="_blank">{{ ic('youtube','ic') }}</a>{% endif %}
+      </div>
+    </div>
+    <div>
+      <h3>Services</h3>
+      <ul>{% for s in services %}<li><a href="{{ rel }}services/{{ s.slug }}/">{{ s.name }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h3>Industries</h3>
+      <ul>{% for i in industries %}<li><a href="{{ rel }}industries/{{ i.slug }}/">{{ i.name }}</a></li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h3>Company</h3>
+      <ul>
+        <li><a href="{{ rel }}about/">About us</a></li>
+        <li><a href="{{ rel }}capabilities/">Capabilities &amp; machinery</a></li>
+        <li><a href="{{ rel }}process/">How we work</a></li>
+        <li><a href="{{ rel }}portfolio/">Our work</a></li>
+        <li><a href="{{ rel }}resources/">Free downloads</a></li>
+        <li><a href="{{ rel }}blog/">Guides &amp; articles</a></li>
+        <li><a href="{{ rel }}faq/">FAQ</a></li>
+        <li><a href="{{ rel }}quote/">Request a quote</a></li>
+        <li><a href="{{ rel }}contact/">Contact</a></li>
+        <li><a href="{{ rel }}privacy/">Privacy policy</a></li>
+      </ul>
+      <h3>Areas we serve</h3>
+      <p class="areas">{{ site.areas_served | join(' · ') }}</p>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© {{ year }} {{ site.legal_name }}. All rights reserved.</span>
+    <span>Printing company in Colombo, Sri Lanka · Packaging manufacturer · Labels · Boxes · Brochures</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">{{ ic('whatsapp','ic') }}<span>WhatsApp</span></a>
+<div class="sticky-cta" aria-hidden="true">
+  <a href="tel:{{ site.phone_tel }}">{{ ic('phone','ic sm') }} Call</a>
+  <a href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp</a>
+  <a class="primary" href="{{ rel }}quote/">{{ ic('quote','ic sm') }} Get quote</a>
+</div>
+<script src="{{ rel }}static/js/main.js?v={{ build_id }}" defer></script>
+</body>
+</html>

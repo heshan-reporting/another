@@ -1,0 +1,49 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form, service_card, industry_card, faq_list %}
+{% block content %}
+<section class="page-hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ ic(i.icon,'ic sm') }} Industry</p>
+      <h1>{{ i.h1 }}</h1>
+      <p class="lead">{{ i.intro }}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="{{ rel }}quote/?industry={{ i.slug }}">{{ ic('quote','ic sm') }} Get a quote</a>
+        <a class="btn btn-wa btn-lg" href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp</a>
+      </div>
+    </div>
+    <aside class="spec-card">
+      <h2>What {{ i.name.lower() }} tell us</h2>
+      <ul class="pains">{% for p in i.pains %}<li>{{ p }}</li>{% endfor %}</ul>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Solutions</p><h2>What we produce for {{ i.name.lower() }}</h2></div>
+    <div class="grid grid-3">
+      {% for title, text, slug in i.solutions %}
+      <a class="card sol" href="{{ rel }}services/{{ slug }}/"><span class="card-ic">{{ ic(service_by[slug].icon) }}</span><h3>{{ title }}</h3><p>{{ text }}</p><span class="card-more">{{ service_by[slug].name }} {{ ic('arrow','ic sm') }}</span></a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="wrap split-content">
+    <article class="prose">
+      <h2>Why {{ i.name.lower() }} work with {{ site.brand }}</h2>
+      <ul class="ticks">
+        {% for u in usps %}<li>{{ ic('check','ic sm') }} <strong>{{ u.title }}.</strong> {{ u.text }}</li>{% endfor %}
+      </ul>
+      <h2>Related services</h2>
+      <div class="grid grid-2">{% for slug in i.related_services %}{{ service_card(rel, ic, service_by[slug]) }}{% endfor %}</div>
+    </article>
+    <aside class="side">
+      {{ lead_form(rel, site, ic, id='sideForm', compact=True, title='Talk to a packaging specialist', subtitle='We reply within one working day.', source='industry-' ~ i.slug) }}
+    </aside>
+  </div>
+</section>
+
+{{ faq_list(i.faqs, h2='Questions from ' ~ i.name.lower()) }}
+{% endblock %}

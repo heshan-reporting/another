@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form, faq_list %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">{{ page.eyebrow }}</p><h1>{{ page.h1 }}</h1>{% if page.intro %}<p class="lead">{{ page.intro }}</p>{% endif %}</div></section>
+<section class="section"><div class="wrap split-content">
+  <article class="prose">{{ page.html | safe }}</article>
+  <aside class="side">{{ lead_form(rel, site, ic, id='sideForm', compact=True, source=page.id) }}</aside>
+</div></section>
+{% if page.faqs %}{{ faq_list(page.faqs) }}{% endif %}
+{% endblock %}

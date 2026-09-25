@@ -1,0 +1,15 @@
+{
+  "name": "PrintPack Lanka",
+  "short_name": "PrintPack",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#0f1b2d",
+  "icons": [
+    {
+      "src": "static/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

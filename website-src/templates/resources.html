@@ -1,0 +1,46 @@
+{% extends "base.html" %}{% from "_macros.html" import lead_form %}
+{% block content %}
+<section class="page-hero slim"><div class="wrap"><p class="eyebrow">Free downloads</p><h1>{{ page.h1 }}</h1><p class="lead">{{ page.intro }}</p></div></section>
+<section class="section"><div class="wrap">
+  <div class="grid grid-3">
+    {% for r in resources %}
+    <div class="card res gated" id="{{ r.slug }}">
+      <span class="card-ic">{{ ic('download') }}</span>
+      <span class="post-cat">{{ r.type }}</span>
+      <h2 class="h3">{{ r.title }}</h2>
+      <p>{{ r.text }}</p>
+      <button class="btn btn-primary" data-download="{{ rel }}static/{{ r.file }}" data-title="{{ r.title }}">{{ ic('download','ic sm') }} Download free</button>
+    </div>
+    {% endfor %}
+  </div>
+</div></section>
+<section class="section alt"><div class="wrap split">
+  <div class="prose">
+    <h2>Why we give these away</h2>
+    <p>Better-prepared files and better-informed buyers mean fewer reprints, faster jobs and packaging that performs. Every resource here is written by our prepress and packaging teams from real jobs in Sri Lanka.</p>
+    <h2>Need something specific?</h2>
+    <p>Ask for a dieline for your exact product, a material sample pack or a cost comparison. All free, no strings.</p>
+  </div>
+  {{ lead_form(rel, site, ic, id='resForm', compact=True, title='Request a custom dieline or sample pack', subtitle='Free for any packaging project.', source='resources') }}
+</div></section>
+
+<div class="modal" id="gateModal" hidden>
+  <div class="modal-in" role="dialog" aria-modal="true" aria-labelledby="gate-h">
+    <button class="modal-x" data-close aria-label="Close">{{ ic('close') }}</button>
+    <p class="eyebrow">Free download</p>
+    <h2 id="gate-h">Where should we send your copy?</h2>
+    <p class="form-sub">Enter your details and the download starts immediately. We'll also email you occasional packaging tips (unsubscribe anytime).</p>
+    <form class="lead-form compact" id="gateForm" method="POST" action="{{ site.form_endpoint }}" novalidate data-source="lead-magnet">
+      <label>Name<input type="text" name="name" required autocomplete="name"></label>
+      <label>Work email<input type="email" name="email" required autocomplete="email"></label>
+      <label>Phone / WhatsApp<input type="tel" name="phone" autocomplete="tel"></label>
+      <input type="hidden" name="resource" value="">
+      <input type="hidden" name="_subject" value="Lead magnet download – {{ site.brand }}">
+      <input type="hidden" name="source_page" value=""><input type="hidden" name="utm" value="">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+      <button type="submit" class="btn btn-primary btn-block">{{ ic('download','ic sm') }} Get the download</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+{% endblock %}

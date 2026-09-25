@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-hero slim center"><div class="wrap-narrow">
+  <span class="big-check">{{ ic('check') }}</span>
+  <h1>Thank you. Your request is with our team.</h1>
+  <p class="lead">A print or packaging specialist will reply within one working day. Need it faster? WhatsApp us now and mention your name.</p>
+  <div class="hero-actions center">
+    <a class="btn btn-wa btn-lg" href="https://wa.me/{{ site.whatsapp_number }}?text={{ wa_text }}" target="_blank" rel="noopener">{{ ic('whatsapp','ic sm') }} WhatsApp us</a>
+    <a class="btn btn-ghost btn-lg" href="{{ rel }}blog/">Read our guides {{ ic('arrow','ic sm') }}</a>
+  </div>
+</div></section>
+<section class="section"><div class="wrap">
+  <div class="section-head"><h2>While you wait, prepare your artwork</h2></div>
+  <div class="grid grid-3">
+    {% for r in resources %}<a class="card res" href="{{ rel }}resources/#{{ r.slug }}"><span class="card-ic">{{ ic('download') }}</span><h3>{{ r.title }}</h3><p>{{ r.text }}</p></a>{% endfor %}
+  </div>
+</div></section>
+{% endblock %}
